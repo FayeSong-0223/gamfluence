@@ -72,9 +72,16 @@ refit <- function(st, keep, lambda = NULL, psi = NULL, plan = no_plan(st),
   live <- vapply(S, function(M) any(M != 0), logical(1))
 
   family <- st$model$family                         # user-fixed theta, link kept
-  if (!is.null(st$psi))                             # theta estimated in the full fit
-    family <- if (!is.null(psi)) mgcv::negbin(psi, link = st$link) else
-                mgcv::nb(theta = if (warm) -st$psi else NULL, link = st$link)   # negative = starting value
+  if (!is.null(st$psi)) {                           # theta estimated in the full fit
+    # nb() and negbin() read `link` with substitute(), so it must arrive as a
+    # literal string: do.call() passes the value, not the expression st$link
+    # (mgcv >= 1.9-4 rejects the expression).
+    family <- if (!is.null(psi)) {
+      do.call(mgcv::negbin, list(theta = psi, link = st$link))
+    } else {                                        # a negative theta is a starting value
+      do.call(mgcv::nb, list(theta = if (warm) -st$psi else NULL, link = st$link))
+    }
+  }
 
   dd <- list(y = st$y[keep], X = st$X[keep, cols, drop = FALSE],
              off = st$off[keep], pw = st$pw[keep])
