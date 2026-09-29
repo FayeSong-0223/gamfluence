@@ -1,0 +1,8 @@
+.DS_Store
+.Rproj.user
+.Rhistory
+.RData
+*.Rcheck/
+gamfluence_*.tar.gz
+docs/
+tests/testthat/testthat-problems.rds

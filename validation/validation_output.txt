@@ -1,0 +1,79 @@
+gamfluence 0.0.1, mgcv 1.9.1, R 4.3.3
+data: 136 rows, 20 sites, 8 years (85% of site-years kept)
+
+[V1] Reproduction of the full fit (10 test models)
+  gaussian_w_by     held: max|d eta| 4.3e-13   re-estimated: max|d log lambda| 1.8e-11
+  negbin_nb         held: max|d eta| 5.9e-13   re-estimated: max|d log lambda| 1.2e-12
+  poisson_off       held: max|d eta| 7.0e-13   re-estimated: max|d log lambda| 1.2e-12
+  binomial_01       held: max|d eta| 6.9e-14   re-estimated: max|d log lambda| 7.8e-14
+  binomial_cbind    held: max|d eta| 3.6e-13   re-estimated: max|d log lambda| 1.1e-12
+  fixed_sp_in_s     held: max|d eta| 2.8e-14   re-estimated: max|d log lambda| 7.7e-11
+  fixed_sp_gam_arg  held: max|d eta| 3.8e-14   re-estimated: max|d log lambda| 2.0e-15
+  negbin_theta3     held: max|d eta| 5.8e-13   re-estimated: max|d log lambda| 1.2e-12
+  nb_theta3         held: max|d eta| 5.8e-11   re-estimated: max|d log lambda| 4.9e-07
+  nb_sqrt_link      held: max|d eta| 3.8e-13   re-estimated: max|d log lambda| 8.1e-13
+
+[V2] Status and time, all 20 site deletions per model
+     (held refit, plus the re-estimated refit searched from two starts)
+  gaussian_w_by     0.16 s per site (n = 136)   status: ok 20
+  negbin_nb         0.08 s per site (n = 136)   status: ok 20
+  poisson_off       0.07 s per site (n = 136)   status: ok 20
+  binomial_01       0.08 s per site (n = 136)   status: ok 20
+  binomial_cbind    0.07 s per site (n = 136)   status: ok 20
+  fixed_sp_in_s     0.14 s per site (n = 136)   status: ok 19, two optima 1
+      site 15: two REML optima: the better one is used (REML score lower by 0.017); the other gives total 0.0507
+  fixed_sp_gam_arg  0.09 s per site (n = 136)   status: ok 20
+  negbin_theta3     0.07 s per site (n = 136)   status: ok 20
+  nb_theta3         0.07 s per site (n = 136)   status: ok 20
+  nb_sqrt_link      0.11 s per site (n = 136)   status: ok 20
+
+[V3] Identity (regression test): fixed + added - total, largest violation over all 20 sites
+  gaussian_w_by   1.4e-17
+  negbin_nb       0.0e+00
+  binomial_cbind  3.5e-18
+
+[V4] Independent reference for fit T, data-independent basis (all 20 sites)
+  gaussian_w  max|d eta| 1.0e-05   max|d site SD| 5.7e-06
+  poisson     max|d eta| 4.2e-07   max|d site SD| 6.2e-07
+  negbin      max|d eta| 1.8e-06   max|d site SD| 2.0e-06
+  binom_cbind max|d eta| 1.9e-06   max|d site SD| 2.3e-06
+
+[V5] T24: independent REML / Laplace-REML optimiser on the frozen X, models with covariate smooths
+  gap = criterion at the refit's lambda minus the reference optimum (>= 0 means the reference did no worse)
+  gaussian_w_by    deleted none gap   3.1e-05   full-fit lambda gap       NA   max|d eta| 3.8e-06   |d log lambda| (estimated only) 9e-08 6e-08 1e+01 5e-08
+  gaussian_w_by    deleted 2    gap   2.6e-05   full-fit lambda gap  4.7e-01   max|d eta| 2.9e-06   |d log lambda| (estimated only) 9e-08 7e-08 1e+01 3e-09
+  gaussian_w_by    deleted 6    gap   2.5e-05   full-fit lambda gap  2.1e-02   max|d eta| 2.9e-06   |d log lambda| (estimated only) 1e-07 2e-07 1e+01 1e-07
+  gaussian_w_by    deleted 9    gap   2.9e-05   full-fit lambda gap  2.3e-01   max|d eta| 3.5e-06   |d log lambda| (estimated only) 4e-07 5e-01 1e+01 1e-07
+  gaussian_w_by    deleted 13   gap   2.9e-05   full-fit lambda gap  1.1e-01   max|d eta| 2.2e-06   |d log lambda| (estimated only) 2e-08 1e-07 1e+01 9e-08
+  gaussian_w_by    deleted 17   gap   7.1e-05   full-fit lambda gap  3.6e-02   max|d eta| 1.4e-05   |d log lambda| (estimated only) 2e-08 7e-08 1e+01 1e-08
+  fixed_sp_in_s    deleted none gap   3.3e-05   full-fit lambda gap       NA   max|d eta| 7.2e-06   |d log lambda| (estimated only) 5e-07 1e+01 2e-09
+  fixed_sp_in_s    deleted 2    gap   4.8e-05   full-fit lambda gap  1.7e-01   max|d eta| 9.6e-06   |d log lambda| (estimated only) 9e-08 1e+01 1e-08
+  fixed_sp_in_s    deleted 6    gap   3.3e-05   full-fit lambda gap  9.7e-03   max|d eta| 7.0e-06   |d log lambda| (estimated only) 3e-07 1e+01 2e-08
+  fixed_sp_in_s    deleted 9    gap   5.2e-05   full-fit lambda gap  1.3e-01   max|d eta| 7.8e-05   |d log lambda| (estimated only) 5e+00 1e+01 1e-07
+  fixed_sp_in_s    deleted 13   gap   3.0e-05   full-fit lambda gap  5.3e-02   max|d eta| 7.5e-06   |d log lambda| (estimated only) 3e-08 1e+01 2e-08
+  fixed_sp_in_s    deleted 17   gap   3.6e-05   full-fit lambda gap  3.0e-03   max|d eta| 3.2e-06   |d log lambda| (estimated only) 3e-07 1e+01 4e-08
+  fixed_sp_gam_arg deleted none gap   2.1e-14   full-fit lambda gap       NA   max|d eta| 3.5e-10   |d log lambda| (estimated only) 2e-09
+  fixed_sp_gam_arg deleted 2    gap   7.1e-15   full-fit lambda gap  2.6e-02   max|d eta| 6.7e-09   |d log lambda| (estimated only) 4e-08
+  fixed_sp_gam_arg deleted 6    gap   2.1e-14   full-fit lambda gap  9.0e-05   max|d eta| 2.0e-08   |d log lambda| (estimated only) 1e-07
+  fixed_sp_gam_arg deleted 9    gap   0.0e+00   full-fit lambda gap  6.7e-07   max|d eta| 9.6e-09   |d log lambda| (estimated only) 5e-08
+  fixed_sp_gam_arg deleted 13   gap   1.4e-14   full-fit lambda gap  4.4e-02   max|d eta| 2.0e-08   |d log lambda| (estimated only) 9e-08
+  fixed_sp_gam_arg deleted 17   gap   1.1e-14   full-fit lambda gap  1.3e-03   max|d eta| 5.1e-09   |d log lambda| (estimated only) 3e-08
+  poisson_off      deleted none gap   1.3e-10   full-fit lambda gap       NA   max|d eta| 1.1e-06   |d log lambda| (estimated only) 1e-05 1e-07
+  poisson_off      deleted 2    gap   1.4e-13   full-fit lambda gap  1.8e-04   max|d eta| 1.0e-08   |d log lambda| (estimated only) 2e-08 6e-08
+  poisson_off      deleted 6    gap   2.3e-13   full-fit lambda gap  1.4e-02   max|d eta| 2.5e-09   |d log lambda| (estimated only) 2e-08 5e-09
+  poisson_off      deleted 9    gap   5.7e-14   full-fit lambda gap  9.5e-03   max|d eta| 2.5e-08   |d log lambda| (estimated only) 2e-07 4e-09
+  poisson_off      deleted 13   gap   2.3e-10   full-fit lambda gap  1.6e-04   max|d eta| 1.3e-06   |d log lambda| (estimated only) 1e-05 2e-08
+  poisson_off      deleted 17   gap  -5.7e-14   full-fit lambda gap  1.6e-03   max|d eta| 1.4e-08   |d log lambda| (estimated only) 1e-08 8e-08
+  binomial_cbind   deleted none gap   0.0e+00   full-fit lambda gap       NA   max|d eta| 5.2e-08   |d log lambda| (estimated only) 2e-09 2e-07
+  binomial_cbind   deleted 2    gap   0.0e+00   full-fit lambda gap  2.1e-02   max|d eta| 2.5e-08   |d log lambda| (estimated only) 2e-07 6e-08
+  binomial_cbind   deleted 6    gap   0.0e+00   full-fit lambda gap  1.7e-02   max|d eta| 9.6e-10   |d log lambda| (estimated only) 1e-09 3e-09
+  binomial_cbind   deleted 9    gap   0.0e+00   full-fit lambda gap  1.6e-02   max|d eta| 1.9e-08   |d log lambda| (estimated only) 1e-08 7e-08
+  binomial_cbind   deleted 13   gap  -1.1e-13   full-fit lambda gap  3.1e-04   max|d eta| 3.1e-08   |d log lambda| (estimated only) 3e-07 8e-09
+  binomial_cbind   deleted 17   gap   0.0e+00   full-fit lambda gap  1.5e-01   max|d eta| 1.4e-08   |d log lambda| (estimated only) 2e-07 2e-08
+  gaussian_w_by / fixed_sp_in_s: the 2nd and 3rd estimated lambda are the by = region smooths
+
+[V6] Rank deficiency after deletion
+  factor level only in site 3: dropped zonerare; retained-row eta vs ordinary gam() on reduced data 1.3e-06
+  by = factor level only in site 5: held s(x):grpsolo; rank-deficient TRUE; eta vs refit without that level 1.3e-15; other log lambda 0.0e+00
+  gam_influence on that model: status of site 5: rank-deficient; lambda held; other 15 sites: ok 11, two optima 4
+

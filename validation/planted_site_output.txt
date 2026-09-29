@@ -1,0 +1,20 @@
+gamfluence 0.0.1, mgcv 1.9.1, R 4.3.3
+
+[Null] 20 datasets x 40 sites = 800 deletions; status ok: 800
+  fixed  median / 95% / 99%: 0.00913 / 0.016 / 0.0193
+  added  median / 95% / 99%: 0.00156 / 0.00585 / 0.0108
+  total  median / 95% / 99%: 0.00962 / 0.0166 / 0.0202
+  site-SD ratio median 1.009; s(x) lambda ratio median 0.997
+
+[Null 99% lines] each rests on about 8 of 800 values
+  fixed  0.0193   dataset-bootstrap 90% interval 0.0182-0.0208   null datasets with >= 1 site above: 8/20 (95% CI 19-64%)
+  added  0.0108   dataset-bootstrap 90% interval 0.0086-0.0132   null datasets with >= 1 site above: 8/20 (95% CI 19-64%)
+  total  0.0202   dataset-bootstrap 90% interval 0.0191-0.0238   null datasets with >= 1 site above: 7/20 (95% CI 15-59%)
+
+[Planted] site 1 at +5 SD, 20 datasets; status ok: 20
+  fixed  median 0.0104   above its null 99% line: 0/20 (95% CI 0-17%)
+  added  median 0.0224   above its null 99% line: 20/20 (95% CI 83-100%)
+  total  median 0.0246   above its null 99% line: 18/20 (95% CI 68-99%)
+  added above its line while fixed is not: 20/20 (95% CI 83-100%)
+  site-SD ratio median 0.801; s(x) lambda ratio median 0.996
+
