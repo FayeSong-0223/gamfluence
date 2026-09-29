@@ -14,3 +14,9 @@
   `status` says `"two optima"` when the two end at clearly different fits.
 * Random effects must be `s(g, bs = "re")` with a single factor `g`; random
   slopes are rejected.
+* `plot()` method: each site's `fixed` change against its `added` change, with
+  the diagonal where they are equal, the top sites labelled, and sites with two
+  REML optima marked.
+* Works with mgcv 1.9-4, where `nb()` and `negbin()` read the link with
+  `substitute()`: the refits now pass the link as a literal string. Before
+  this, every negative binomial model with estimated theta failed at setup.

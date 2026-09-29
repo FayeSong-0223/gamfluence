@@ -33,7 +33,12 @@ m <- gam(y ~ s(x) + s(site, bs = "re"), data = d, method = "REML")
 infl <- gam_influence(m, cluster = "site")
 infl                          # largest changes, and which hyperparameters moved
 top_units(infl, by = "added")
+plot(infl, n = 3)             # fixed against added, one point per site
 ```
+
+<img src="man/figures/README-plot.png" alt="Scatter plot of each site's fixed change against its added change, with a dashed diagonal where they are equal; site 9 sits well above the diagonal." width="480">
+
+Sites above the dashed line change the fit more through the smoothing parameters re-tuning than through the held-parameter refit. Here site 9 stands out: re-estimating the smoothing parameters adds more than the held-parameter refit shows.
 
 **`infl$sites`** has one row per site:
 

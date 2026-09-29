@@ -11,6 +11,14 @@ each site is removed and the model refitted with the estimated
 hyperparameters fixed and re-estimated, on the frozen full-data
 representation. The main function is \code{\link[=gam_influence]{gam_influence()}}.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/FayeSong-0223/gamfluence}
+  \item Report bugs at \url{https://github.com/FayeSong-0223/gamfluence/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Ziqi Song \email{ziqisong030@gmail.com}
 
