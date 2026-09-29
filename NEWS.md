@@ -20,3 +20,6 @@
 * Works with mgcv 1.9-4, where `nb()` and `negbin()` read the link with
   `substitute()`: the refits now pass the link as a literal string. Before
   this, every negative binomial model with estimated theta failed at setup.
+* New dataset `coral_trout`: 467 surveys of coral trout at 71 inshore reef
+  sites (Palm and Whitsunday island groups, 2007-2018), derived from AIMS data
+  under CC BY 3.0 AU (see `LICENSE.note`). `data-raw/coral_trout.R` rebuilds it.

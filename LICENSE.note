@@ -1,0 +1,18 @@
+The R code, documentation and tests in gamfluence are licensed under GPL-3
+(see the DESCRIPTION file).
+
+The dataset coral_trout (data/coral_trout.rda) is derived from data published
+by the Australian Institute of Marine Science (AIMS) under the Creative Commons
+Attribution 3.0 Australia licence (CC BY 3.0 AU,
+https://creativecommons.org/licenses/by/3.0/au/):
+
+  Australian Institute of Marine Science (AIMS). (2022). Spatio-temporal
+  dynamics of coral reef fish assemblages on inshore reefs of the Great Barrier
+  Reef. https://apps.aims.gov.au/metadata/view/814a0be3-ed85-4a43-87b7-59ece6eb6a05,
+  accessed 02-Sep-2026.
+
+Based on Australian Institute of Marine Science data. For this package the data
+were restricted to Plectropomus leopardus in the Palm and Whitsunday island
+groups from 2007 to 2018, a subset of columns was kept, and densities were
+converted back to counts. Anyone reusing coral_trout must carry the attribution
+above.
