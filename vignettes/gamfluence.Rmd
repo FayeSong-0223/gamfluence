@@ -1,0 +1,264 @@
+---
+title: "Which sites change a GAM, and why? A coral trout example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Which sites change a GAM, and why? A coral trout example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5,
+                      fig.height = 6.5, out.width = "85%", fig.align = "center")
+```
+
+## The question
+
+When a model is fitted to data collected at sites, a natural check is to leave
+each site out in turn and see how much the fit changes. For a GAM fitted with
+`mgcv`, leaving a site out changes two things. The coefficients move, and the
+smoothing parameters, which REML estimated from all the data, move too. A
+classical deletion diagnostic such as Cook's distance holds the smoothing
+parameters fixed, so it only sees the first change.
+
+`gam_influence()` refits the model twice for every site and compares the two
+refits:
+
+- **fixed**: the site is removed and the estimated smoothing parameters (and a
+  negative binomial θ) are held at their full-data values. This is what a
+  classical diagnostic sees.
+- **added**: what re-estimating them adds on top.
+- **total**: the change when everything is re-estimated.
+
+Each is a weighted RMS change in the *other* sites' fitted values, on the link
+scale. On a log link, an RMS of 0.02 is roughly a 2% change in their predicted
+means, as long as the individual changes are small.
+
+This vignette runs it on a real model: coral trout on inshore reefs of the Great
+Barrier Reef.
+
+## The data
+
+`coral_trout` holds 467 surveys of coral trout (*Plectropomus leopardus*) at 71
+inshore reef sites in the Palm and Whitsunday island groups, from 2007 to 2018.
+Each site is fished or inside a no-take reserve (zoned in 1987 or 2004).
+
+```{r data, message = FALSE}
+library(mgcv)
+library(gamfluence)
+str(coral_trout)
+table(coral_trout$REGION, coral_trout$NTR)   # surveys by region and zone
+```
+
+The data are derived from Australian Institute of Marine Science (AIMS) data
+under CC BY 3.0 Australia; the credit is at the end of this vignette.
+
+## The model
+
+This is Model A of the coral trout study (Song 2026): a negative binomial GAM
+with a random intercept for each site, a separate smooth year trend for each
+region, and smooth terms for habitat and environment.
+
+```{r model}
+m <- gam(count ~ REGION * NTR + EXPOSURE + depth +
+           s(YEAR, by = REGION, k = 5) +
+           s(rugosity, k = 5) + s(LHC, k = 5) + s(kd490, k = 5) +
+           s(maxDHW, k = 5) + s(Cyclone, k = 5) + s(SITE, bs = "re"),
+         family = nb(), data = coral_trout, method = "REML")
+m$family$getTheta(TRUE)       # theta, estimated
+round(m$sp, 3)                # the eight estimated smoothing parameters
+```
+
+## Running gam_influence()
+
+One call does the whole analysis. Every site is deleted in turn, and each
+deletion needs one held refit and one re-estimated refit, so for 71 sites this
+takes about three minutes:
+
+```{r run, eval = FALSE}
+infl <- gam_influence(m, cluster = "SITE")
+```
+
+To keep this vignette quick, it loads the saved result of exactly that call.
+The script that made it is `data-raw/coral_trout_influence.R` in the package
+source.
+
+```{r load}
+infl <- readRDS(system.file("extdata", "coral_trout_influence.rds",
+                            package = "gamfluence"))
+```
+
+A run on two sites takes a few seconds and shows the same numbers:
+
+```{r two-sites}
+two <- gam_influence(m, cluster = "SITE", which = c("OE4", "B2"), progress = FALSE)
+two$sites[, c("id", "fixed", "added", "total")]
+infl$sites[infl$sites$id %in% c("OE4", "B2"), c("id", "fixed", "added", "total")]
+```
+
+## Reading the result
+
+Printing the result shows the sites with the largest total change and the
+largest hyperparameter changes:
+
+```{r print}
+infl
+```
+
+The full tables are `infl$sites` (one row per site) and `infl$hyper` (one row
+per site and hyperparameter). `top_units()` sorts the site table by any of the
+three changes.
+
+```{r top}
+top_units(infl, by = "fixed", n = 5)[, c("id", "fixed", "added", "total", "status")]
+```
+
+```{r numbers, include = FALSE}
+s <- infl$sites
+h <- infl$hyper
+palm <- h[h$parameter == "s(YEAR):REGIONPalm", ]
+straight <- palm$id[palm$ratio > 100]
+st <- s[s$id %in% straight, ]
+others <- s[!s$id %in% straight, ]
+```
+
+## The plot
+
+`plot()` puts each site at its fixed change (across) and its added change (up),
+on the same scale. Sites above the dashed line change the fit more through the
+smoothing parameters re-tuning than through the held-parameter refit.
+
+```{r plot, fig.alt = "Scatter plot of each site's fixed change against its added change. Most sites sit near the dashed diagonal below 0.03; seven sites sit far above it, near 0.06 on the added axis."}
+plot(infl, n = 8)
+```
+
+Most sites sit in a cloud near the diagonal. `r length(straight)` sites sit far
+above it, at the top left. Held at their full-data smoothing parameters, their
+deletion looks ordinary: their fixed changes run from
+`r round(min(st$fixed), 3)` to `r round(max(st$fixed), 3)`, inside the range of
+the other sites (`r round(min(others$fixed), 3)` to
+`r round(max(others$fixed), 3)`). A classical diagnostic would not flag them.
+Once the smoothing parameters are re-estimated, each of them adds a change of
+about `r round(min(st$added), 3)` to `r round(max(st$added), 3)`, between
+`r round(min(st$added / st$fixed), 1)` and `r round(max(st$added / st$fixed), 1)`
+times its fixed change.
+
+## Why those sites?
+
+The hyperparameter table shows what moves. For one of them, OE4:
+
+```{r oe4}
+h[h$id == "OE4", c("parameter", "type", "full", "deleted", "ratio")]
+```
+
+The smoothing parameter of the Palm year trend jumps from
+`r signif(palm$full[1], 2)` to `r format(round(palm$deleted[palm$id == "OE4"]), big.mark = ",")`. A smoothing parameter that large turns a smooth into a straight line:
+without OE4, the Palm year trend is no longer curved. The same happens for all
+`r length(straight)` sites (`r paste(sort(straight), collapse = ", ")`), and
+straightening the trend moves the fitted values of every Palm site.
+
+Why can one site do that? Fixing the Palm smoothing parameter at a range of
+values, re-estimating everything else each time, and comparing REML scores
+shows how flat the score is for that trend:
+
+```{r profile}
+grid <- c(0.01, 0.1, 1, 10, 1e3, 1e5)
+reml <- sapply(grid, function(l) {
+  sp <- rep(-1, length(m$sp))
+  sp[1] <- l                                  # s(YEAR):REGIONPalm
+  as.numeric(gam(formula(m), family = nb(), data = coral_trout,
+                 method = "REML", sp = sp)$gcv.ubre)
+})
+data.frame(lambda = grid, REML_minus_best = round(reml - min(reml), 3))
+```
+
+The curved trend (smoothing parameter near 0.1) is the best fit, but a straight
+trend (very large values) is worse by only
+`r round(reml[length(reml)] - min(reml), 3)` REML units, with a worse region in
+between. With two optima that close, removing one site can make the straight
+line win. For the coral trout study this says the shape of the Palm year trend
+is only weakly supported by the data, and any conclusion that leans on its curve
+should be read with that in mind.
+
+## Two optima
+
+Because the REML score here has two optima, a single search for the re-estimated
+fit can stop at the worse one. `gam_influence()` therefore searches twice, from
+mgcv's default starting values and from the full-data values, and keeps the fit
+with the better REML score. When the two searches end at clearly different
+fits, the site's status says so and `note` gives the other fit:
+
+```{r optima}
+table(s$status)
+x <- s[s$id %in% c("OE4", "W2"), ]
+writeLines(paste0(x$id, ": ", x$note))
+```
+
+For OE4 the straight trend is the better fit after deletion. For W2 the search
+from mgcv's defaults stops on the straight-line plateau, but the curved trend
+is better, so the curved fit is used. A small REML difference means the data
+barely prefer one fit over the other, so treat those sites' `added` and `total`
+with care.
+
+## Other groupings
+
+`cluster` can be any grouping of rows, not only sites. For example, deleting
+whole surveys (each region in each year):
+
+```{r surveys, eval = FALSE}
+by_survey <- gam_influence(m, cluster = paste(coral_trout$REGION, coral_trout$YEAR))
+plot(by_survey)
+```
+
+## How it works
+
+- **One representation for every refit.** All refits reuse the full fit's model
+  matrix, identifiability constraints and penalties. So the changes measure the
+  effect of deleting the site, not of rebuilding the basis from less data.
+- **Two refits per site.** The held refit keeps every estimated smoothing
+  parameter (and θ) at its full-data value. The re-estimated refit estimates
+  them again by REML, searched from two starting points.
+- **fixed + added = total** holds exactly for every fitted value. The table
+  reports RMS summaries, and those do not add: `total` is never larger than
+  `fixed + added`.
+- **A scope guard** stops with an error on models outside what the package
+  supports, and a **self-check** confirms that the refits reproduce the
+  original fit before any site is deleted.
+
+## How it is checked
+
+The package's tests check that the refits reproduce the
+original fit; that the held refit matches a closed form and Cook's distance for
+a linear model; that re-estimated refits match ordinary `gam()` refits and are
+optimal under an independently coded REML criterion; and that row alignment,
+rank deficiency, two optima and out-of-scope models are handled.
+
+A known-truth simulation (`validation/planted_site.R` in the source) planted one
+site with an extreme random effect in each of 20 datasets. Its fixed change
+never exceeded the null 99% line (0 of 20 datasets), while its added change
+exceeded it in all 20. Its influence ran through the re-estimated smoothing
+parameters, which a held-parameter diagnostic cannot see.
+
+## Scope and limits
+
+`gam_influence()` supports `gam(..., method = "REML")` with gaussian, poisson,
+binomial and negative binomial families, one-dimensional thin plate smooths,
+`s(g, bs = "re")` random effects and `by = factor`; the README lists what is
+rejected. There is no null reference or p-value, so compare sites with each
+other rather than with a fixed cut-off.
+
+## Data credit and references
+
+The `coral_trout` data are derived from:
+
+Australian Institute of Marine Science (AIMS). (2022). *Spatio-temporal
+dynamics of coral reef fish assemblages on inshore reefs of the Great Barrier
+Reef.* <https://apps.aims.gov.au/metadata/view/814a0be3-ed85-4a43-87b7-59ece6eb6a05>,
+accessed 02-Sep-2026. Licensed under CC BY 3.0 Australia.
+
+Based on Australian Institute of Marine Science data.
+
+The model and the study it comes from:
+
+Song, Z. (2026). *What explains variation in Plectropomus leopardus density*
+(Version v1.0). Zenodo. <https://doi.org/10.5281/zenodo.22933039>

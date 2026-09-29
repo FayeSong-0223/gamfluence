@@ -1,0 +1,17 @@
+url: https://fayesong-0223.github.io/gamfluence/
+
+template:
+  bootstrap: 5
+
+reference:
+  - title: Analysis
+    contents:
+      - gam_influence
+      - plot.gam_influence
+      - gam_influence-methods
+  - title: Data
+    contents:
+      - coral_trout
+  - title: Package
+    contents:
+      - gamfluence-package

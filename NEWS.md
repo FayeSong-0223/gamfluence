@@ -23,3 +23,8 @@
 * New dataset `coral_trout`: 467 surveys of coral trout at 71 inshore reef
   sites (Palm and Whitsunday island groups, 2007-2018), derived from AIMS data
   under CC BY 3.0 AU (see `LICENSE.note`). `data-raw/coral_trout.R` rebuilds it.
+* Vignette: "Which sites change a GAM, and why? A coral trout example", run on
+  `coral_trout`. It loads a saved result for the full 71-site run
+  (`inst/extdata/coral_trout_influence.rds`, made by
+  `data-raw/coral_trout_influence.R`) and runs two sites live.
+* pkgdown website, built and published by GitHub Actions.

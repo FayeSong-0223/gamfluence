@@ -2,6 +2,8 @@
 
 [![R-CMD-check](https://github.com/FayeSong-0223/gamfluence/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/FayeSong-0223/gamfluence/actions/workflows/R-CMD-check.yaml)
 
+**Website:** <https://fayesong-0223.github.io/gamfluence/> · **Tutorial:** [Which sites change a GAM, and why? A coral trout example](https://fayesong-0223.github.io/gamfluence/articles/gamfluence.html)
+
 **Which sites change your GAM when you leave them out, and how much of that change comes from the smoothing parameters re-tuning?**
 
 `gamfluence` answers this for penalised additive (mixed) models fitted with `mgcv::gam()`. mgcv itself has no deletion diagnostics: `influence.gam()` only returns leverages.
@@ -91,7 +93,7 @@ All results are conditional on the full-data representation. The model matrix, c
 
 ## How it is checked
 
-`tests/testthat` contains 412 expectations. They check that:
+`tests/testthat` contains more than 400 expectations. They check that:
 
 - the refits reproduce the original fit;
 - the fixed refit reduces exactly to Cook's distance for a linear model, and to it in the limit as a held smoothing parameter goes to zero;

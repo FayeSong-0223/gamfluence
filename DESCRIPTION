@@ -11,13 +11,15 @@ Description: For penalised additive (mixed) models fitted with mgcv::gam(),
     of a site's influence appears only when the hyperparameters re-tune.
     Deliberately narrow scope; see the package README.
 License: GPL-3
-URL: https://github.com/FayeSong-0223/gamfluence
+URL: https://fayesong-0223.github.io/gamfluence/,
+    https://github.com/FayeSong-0223/gamfluence
 BugReports: https://github.com/FayeSong-0223/gamfluence/issues
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 4.1.0)
 Imports: graphics, mgcv (>= 1.9), stats, utils
-Suggests: testthat (>= 3.1.7)
+Suggests: knitr, rmarkdown, testthat (>= 3.1.7)
+VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1

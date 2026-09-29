@@ -4,3 +4,6 @@
 ^\.github$
 ^\.gitignore$
 ^data-raw$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
