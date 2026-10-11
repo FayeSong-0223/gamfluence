@@ -14,6 +14,7 @@ representation. The main function is \code{\link[=gam_influence]{gam_influence()
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://fayesong-0223.github.io/gamfluence/}
   \item \url{https://github.com/FayeSong-0223/gamfluence}
   \item Report bugs at \url{https://github.com/FayeSong-0223/gamfluence/issues}
 }

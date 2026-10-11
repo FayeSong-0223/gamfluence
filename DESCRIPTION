@@ -1,20 +1,23 @@
 Package: gamfluence
 Type: Package
-Title: Deletion Influence Diagnostics for Penalised Additive Models Fitted with 'mgcv'
-Version: 0.0.1
+Title: Deletion Influence Diagnostics for 'mgcv' Additive Models
+Version: 0.1.0
 Authors@R: person("Ziqi", "Song", email = "ziqisong030@gmail.com", role = c("aut", "cre"))
-Description: For penalised additive (mixed) models fitted with mgcv::gam(),
-    deletes each site (cluster) in turn and refits the model twice on the
-    frozen full-data representation: with the estimated smoothing parameters
-    (and negative binomial theta) held fixed, and with them re-estimated. The
-    changes in the other sites' fitted values are compared, showing how much
-    of a site's influence appears only when the hyperparameters re-tune.
-    Deliberately narrow scope; see the package README.
+Description: For penalised additive (mixed) models fitted with gam() from
+    'mgcv', each site (cluster) is deleted in turn and the model is refitted
+    twice, reusing the full-data model matrix and penalties: once with the
+    estimated smoothing parameters (and negative binomial theta) held fixed,
+    and once with them re-estimated by restricted maximum likelihood (REML).
+    Comparing the changes in the other sites' fitted values shows how much of
+    a site's influence appears only when the smoothing parameters re-tune.
+    Includes a plot method and a dataset of coral trout counts on the Great
+    Barrier Reef.
 License: GPL-3
 URL: https://fayesong-0223.github.io/gamfluence/,
     https://github.com/FayeSong-0223/gamfluence
 BugReports: https://github.com/FayeSong-0223/gamfluence/issues
 Encoding: UTF-8
+Language: en-GB
 LazyData: true
 Depends: R (>= 4.1.0)
 Imports: graphics, mgcv (>= 1.9), stats, utils
