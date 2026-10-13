@@ -5,6 +5,29 @@
 #' @param by Column of the site table to rank by (largest first):
 #'   `"total"`, `"fixed"` or `"added"`.
 #' @param ... Unused.
+#' @return
+#' * `print()` and the `print()` method for summaries: `x`, invisibly. They
+#'   are called for their printed output.
+#' * `summary()`: an object of class `summary.gam_influence`, a list with
+#'   `quantiles` (minimum, median, 90th percentile and maximum of `fixed`,
+#'   `added` and `total`, and the number of missing values), `hyper` (for each
+#'   hyperparameter, its full-data value and the range of its ratios when a
+#'   site is removed), `n_sites`, `status` (a table of site statuses) and
+#'   `info`.
+#' * `as.data.frame()`: the site table, `x$sites`.
+#' * `top_units()`: the `n` rows of the site table with the largest `by`, as a
+#'   data frame.
+#' @examples
+#' library(mgcv)
+#' set.seed(1)
+#' d <- data.frame(site = factor(rep(1:12, each = 6)), x = runif(72))
+#' d$y <- sin(2 * pi * d$x) + rnorm(12, 0, 0.4)[d$site] + rnorm(72, 0, 0.5)
+#' m <- gam(y ~ s(x) + s(site, bs = "re"), data = d, method = "REML")
+#' infl <- gam_influence(m, cluster = "site", progress = FALSE)
+#' print(infl, n = 3)
+#' summary(infl)
+#' top_units(infl, by = "added", n = 3)
+#' head(as.data.frame(infl))
 #' @name gam_influence-methods
 NULL
 

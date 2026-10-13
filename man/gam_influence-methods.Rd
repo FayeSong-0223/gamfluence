@@ -31,6 +31,33 @@ top_units(x, by = "total", n = 10)
 \item{by}{Column of the site table to rank by (largest first):
 \code{"total"}, \code{"fixed"} or \code{"added"}.}
 }
+\value{
+\itemize{
+\item \code{print()} and the \code{print()} method for summaries: \code{x}, invisibly. They
+are called for their printed output.
+\item \code{summary()}: an object of class \code{summary.gam_influence}, a list with
+\code{quantiles} (minimum, median, 90th percentile and maximum of \code{fixed},
+\code{added} and \code{total}, and the number of missing values), \code{hyper} (for each
+hyperparameter, its full-data value and the range of its ratios when a
+site is removed), \code{n_sites}, \code{status} (a table of site statuses) and
+\code{info}.
+\item \code{as.data.frame()}: the site table, \code{x$sites}.
+\item \code{top_units()}: the \code{n} rows of the site table with the largest \code{by}, as a
+data frame.
+}
+}
 \description{
 Methods for gam_influence objects
+}
+\examples{
+library(mgcv)
+set.seed(1)
+d <- data.frame(site = factor(rep(1:12, each = 6)), x = runif(72))
+d$y <- sin(2 * pi * d$x) + rnorm(12, 0, 0.4)[d$site] + rnorm(72, 0, 0.5)
+m <- gam(y ~ s(x) + s(site, bs = "re"), data = d, method = "REML")
+infl <- gam_influence(m, cluster = "site", progress = FALSE)
+print(infl, n = 3)
+summary(infl)
+top_units(infl, by = "added", n = 3)
+head(as.data.frame(infl))
 }

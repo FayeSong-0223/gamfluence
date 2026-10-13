@@ -63,6 +63,12 @@ On a log link, a change of d multiplies a prediction by exp(d): a relative chang
 
 There is no null reference, so compare sites with each other.
 
+## A real example: coral trout on the Great Barrier Reef
+
+<img src="man/figures/README-coral.png" alt="The same plot for 71 coral trout survey sites. Most sites sit near the diagonal below 0.03; seven labelled sites sit far above it, near 0.06 on the added axis." width="480">
+
+The package ships `coral_trout`, 467 surveys of coral trout at 71 inshore reef sites, and the vignette runs a negative binomial GAM on it. Seven sites look ordinary when the smoothing parameters are held: their fixed changes sit inside the range of the other sites. But removing any one of them lets REML straighten the Palm year trend, and the extra change from re-estimation is 2 to 6 times the held-parameter change. A classical, fixed-parameter diagnostic would not flag them. The [tutorial](https://fayesong-0223.github.io/gamfluence/articles/gamfluence.html) walks through why.
+
 ## Scope
 
 **Supported:**
