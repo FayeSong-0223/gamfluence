@@ -18,8 +18,10 @@
 #'   `"fixed"`.
 #' @param main Plot title.
 #' @param ... Unused.
-#' @return Invisibly, a data frame of the plotted sites (`id`, `n_obs`,
-#'   `fixed`, `added`, `total`, `status`) with a logical column `labelled`.
+#' @return Called for its side effect of drawing the plot. Invisibly, a data
+#'   frame with one row per plotted site (`id`, `n_obs`, `fixed`, `added`,
+#'   `total`, `status`) and a logical column `labelled` that marks the
+#'   labelled sites.
 #' @examples
 #' library(mgcv)
 #' set.seed(1)

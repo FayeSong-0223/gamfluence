@@ -6,17 +6,23 @@
 #'   `"total"`, `"fixed"` or `"added"`.
 #' @param ... Unused.
 #' @return
-#' * `print()` and the `print()` method for summaries: `x`, invisibly. They
-#'   are called for their printed output.
+#' * `print()`: the `gam_influence` object `x`, unchanged and invisibly. It is
+#'   called for its side effect of printing the sites with the largest changes
+#'   and the largest hyperparameter changes.
 #' * `summary()`: an object of class `summary.gam_influence`, a list with
-#'   `quantiles` (minimum, median, 90th percentile and maximum of `fixed`,
-#'   `added` and `total`, and the number of missing values), `hyper` (for each
-#'   hyperparameter, its full-data value and the range of its ratios when a
-#'   site is removed), `n_sites`, `status` (a table of site statuses) and
-#'   `info`.
-#' * `as.data.frame()`: the site table, `x$sites`.
-#' * `top_units()`: the `n` rows of the site table with the largest `by`, as a
-#'   data frame.
+#'   `quantiles` (a matrix: minimum, median, 90th percentile and maximum of
+#'   `fixed`, `added` and `total`, and the number of missing values), `hyper`
+#'   (a data frame: for each hyperparameter, its full-data value and the range
+#'   of its ratios when a site is removed; `NULL` if the model has no
+#'   estimated hyperparameters), `n_sites` (the number of sites),
+#'   `status` (a table of site statuses) and `info` (as in [gam_influence()]).
+#' * `print()` for a `summary.gam_influence` object: `x`, unchanged and
+#'   invisibly. It is called for its side effect of printing the summary.
+#' * `as.data.frame()`: the site table `x$sites`, a data frame with one row per
+#'   site and columns `id`, `n_obs`, `fixed`, `added`, `total`, `status` and
+#'   `note` (see [gam_influence()]).
+#' * `top_units()`: a data frame with the same columns as `x$sites`, holding
+#'   the `n` sites with the largest `by`, largest first.
 #' @examples
 #' library(mgcv)
 #' set.seed(1)

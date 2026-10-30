@@ -117,17 +117,20 @@ gam_influence <- function(model, cluster, data = NULL, which = NULL,
   for (k in seq_len(n_units)) {
     keep  <- setdiff(all_rows, units$rows[[k]])
     plan  <- NULL
-    warns <- character(0)
+    # warnings from this site's refits are collected in a local environment
+    caught <- new.env(parent = emptyenv())
+    caught$warns <- character(0)
     res <- tryCatch(
       withCallingHandlers({
           plan <- deletion_plan(st, keep)
           compare_fits(st, keep, plan)
         },
         warning = function(w) {
-          warns <<- c(warns, conditionMessage(w))
+          caught$warns <- c(caught$warns, conditionMessage(w))
           invokeRestart("muffleWarning")
         }),
       error = function(e) e)
+    warns <- caught$warns
     if (is.null(plan)) plan <- no_plan(st)
     held <- st$map$term[plan$hold & est]
 

@@ -33,17 +33,23 @@ top_units(x, by = "total", n = 10)
 }
 \value{
 \itemize{
-\item \code{print()} and the \code{print()} method for summaries: \code{x}, invisibly. They
-are called for their printed output.
+\item \code{print()}: the \code{gam_influence} object \code{x}, unchanged and invisibly. It is
+called for its side effect of printing the sites with the largest changes
+and the largest hyperparameter changes.
 \item \code{summary()}: an object of class \code{summary.gam_influence}, a list with
-\code{quantiles} (minimum, median, 90th percentile and maximum of \code{fixed},
-\code{added} and \code{total}, and the number of missing values), \code{hyper} (for each
-hyperparameter, its full-data value and the range of its ratios when a
-site is removed), \code{n_sites}, \code{status} (a table of site statuses) and
-\code{info}.
-\item \code{as.data.frame()}: the site table, \code{x$sites}.
-\item \code{top_units()}: the \code{n} rows of the site table with the largest \code{by}, as a
-data frame.
+\code{quantiles} (a matrix: minimum, median, 90th percentile and maximum of
+\code{fixed}, \code{added} and \code{total}, and the number of missing values), \code{hyper}
+(a data frame: for each hyperparameter, its full-data value and the range
+of its ratios when a site is removed; \code{NULL} if the model has no
+estimated hyperparameters), \code{n_sites} (the number of sites),
+\code{status} (a table of site statuses) and \code{info} (as in \code{\link[=gam_influence]{gam_influence()}}).
+\item \code{print()} for a \code{summary.gam_influence} object: \code{x}, unchanged and
+invisibly. It is called for its side effect of printing the summary.
+\item \code{as.data.frame()}: the site table \code{x$sites}, a data frame with one row per
+site and columns \code{id}, \code{n_obs}, \code{fixed}, \code{added}, \code{total}, \code{status} and
+\code{note} (see \code{\link[=gam_influence]{gam_influence()}}).
+\item \code{top_units()}: a data frame with the same columns as \code{x$sites}, holding
+the \code{n} sites with the largest \code{by}, largest first.
 }
 }
 \description{

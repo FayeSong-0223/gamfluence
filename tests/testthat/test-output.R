@@ -62,3 +62,16 @@ test_that("theta-only hyperparameter table (nb() with user-fixed lambda or no sm
     expect_false(anyNA(i$hyper$deleted))
   }
 })
+
+test_that("warnings from a site's refits go into note and nothing is written to the global environment", {
+  real <- compare_fits
+  local_mocked_bindings(compare_fits = function(...) {
+    warning("planted warning")
+    real(...)
+  })
+  before <- setdiff(ls(globalenv(), all.names = TRUE), ".Random.seed")
+  i <- gam_influence(reef_models$poisson_off, cluster = "site", which = c("1", "2"),
+                     progress = FALSE)
+  expect_identical(setdiff(ls(globalenv(), all.names = TRUE), ".Random.seed"), before)
+  expect_true(all(grepl("warning: planted warning", i$sites$note, fixed = TRUE)))
+})

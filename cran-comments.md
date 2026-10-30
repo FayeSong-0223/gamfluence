@@ -1,6 +1,17 @@
-## Submission
+## Resubmission
 
-This is a new submission.
+This is a resubmission of a new package. In response to the review, I have:
+
+* Added `\value` to `gam_influence-methods.Rd`. It now describes the class
+  and the meaning of what each method returns: `print()`, `summary()`, the
+  `print()` method for summaries, `as.data.frame()` and `top_units()`. The
+  print methods are documented as returning their input invisibly, called for
+  their side effect of printing. The `\value` of `plot.gam_influence.Rd` now
+  also says that it is called for its side effect of drawing the plot.
+* Removed the `<<-` in `gam_influence()`. Warnings from each site's refits are
+  now collected in a local environment created inside the function, so the
+  package does not write to `.GlobalEnv`. A new test checks that
+  `gam_influence()` leaves the global environment unchanged.
 
 ## Test environments
 

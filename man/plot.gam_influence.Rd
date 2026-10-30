@@ -25,8 +25,10 @@
 \item{...}{Unused.}
 }
 \value{
-Invisibly, a data frame of the plotted sites (\code{id}, \code{n_obs},
-\code{fixed}, \code{added}, \code{total}, \code{status}) with a logical column \code{labelled}.
+Called for its side effect of drawing the plot. Invisibly, a data
+frame with one row per plotted site (\code{id}, \code{n_obs}, \code{fixed}, \code{added},
+\code{total}, \code{status}) and a logical column \code{labelled} that marks the
+labelled sites.
 }
 \description{
 One point per site. The x-axis is \code{fixed}, the change in the other sites'
