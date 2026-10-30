@@ -1,4 +1,4 @@
-gamfluence 0.0.1, mgcv 1.9.1, R 4.3.3
+gamfluence 0.1.1, mgcv 1.9.1, R 4.3.3
 
 [Null] 20 datasets x 40 sites = 800 deletions; status ok: 800
   fixed  median / 95% / 99%: 0.00913 / 0.016 / 0.0193

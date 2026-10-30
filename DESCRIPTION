@@ -1,7 +1,7 @@
 Package: gamfluence
 Type: Package
 Title: Deletion Influence Diagnostics for 'mgcv' Additive Models
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Ziqi", "Song", email = "ziqisong030@gmail.com", role = c("aut", "cre"))
 Description: For penalised additive (mixed) models fitted with gam() from
     'mgcv', each site (cluster) is deleted in turn and the model is refitted

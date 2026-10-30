@@ -1,4 +1,4 @@
-# gamfluence 0.1.0
+# gamfluence 0.1.1
 
 First release.
 

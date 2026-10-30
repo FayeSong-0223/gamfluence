@@ -12,6 +12,7 @@ This is a resubmission of a new package. In response to the review, I have:
   now collected in a local environment created inside the function, so the
   package does not write to `.GlobalEnv`. A new test checks that
   `gam_influence()` leaves the global environment unchanged.
+* Increased the version number to 0.1.1.
 
 ## Test environments
 
