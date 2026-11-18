@@ -17,6 +17,14 @@ Comparing the two shows influence that runs through the smoothing parameters. Fo
 
 ## Installation
 
+From CRAN:
+
+```r
+install.packages("gamfluence")
+```
+
+The development version from GitHub:
+
 ```r
 # install.packages("remotes")
 remotes::install_github("FayeSong-0223/gamfluence")
